@@ -1,0 +1,31 @@
+[debug] [2018-10-10T04:11:08.945Z] ----------------------------------------------------------------------
+[debug] [2018-10-10T04:11:08.946Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve --only functions
+[debug] [2018-10-10T04:11:08.947Z] CLI Version:   5.0.1
+[debug] [2018-10-10T04:11:08.947Z] Platform:      darwin
+[debug] [2018-10-10T04:11:08.947Z] Node Version:  v9.8.0
+[debug] [2018-10-10T04:11:08.947Z] Time:          Wed Oct 10 2018 15:11:08 GMT+1100 (AEDT)
+[debug] [2018-10-10T04:11:08.947Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-10-10T04:11:08.958Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-10-10T04:11:08.958Z] > authorizing via signed-in user
+[debug] [2018-10-10T04:11:08.958Z] [iam] checking project reference-api-poc for permissions ["firebase.projects.get"]
+[debug] [2018-10-10T04:11:08.960Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/reference-api-poc:testIamPermissions  
+
+[debug] [2018-10-10T04:11:10.390Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-10T04:11:10.391Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/reference-api-poc  
+ 
+[debug] [2018-10-10T04:11:11.677Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/aarym/Documents/development/reference-api-serverless'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-10-10T04:11:12.557Z] Fetching environment
+[debug] [2018-10-10T04:11:12.561Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/204630292763:getServerAppConfig  
+ 
+[debug] [2018-10-10T04:11:13.327Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-10T04:11:13.327Z] Starting @google-cloud/functions-emulator
+[debug] [2018-10-10T04:11:13.357Z] Parsing function triggers
+[info] ✔  functions: health: http://localhost:8010/reference-api-poc/us-central1/health
+[info] ✔  functions: stationSearch: http://localhost:8010/reference-api-poc/us-central1/stationSearch
+[info] ✔  functions: createStation: http://localhost:8010/reference-api-poc/us-central1/createStation
+[info] ✔  functions: stations: http://localhost:8010/reference-api-poc/us-central1/stations

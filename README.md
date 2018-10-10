@@ -21,19 +21,18 @@ See https://medium.com/@mwebler/debugging-firebase-functions-with-vs-code-3afab5
 
 Setup a local Service Key for Google Cloud. Create Service Key in json.
 
-https://console.cloud.google.com/iam-admin/serviceaccounts?authuser=1&project=reference-api-poc
+https://console.cloud.google.com/iam-admin/serviceaccounts?authuser=1&project=[`YOURPROJECTID`]
 
-Further Docs: https://firebase.google.com/docs/functions/local-emulator
+Docs: https://firebase.google.com/docs/functions/local-emulator
 
 ## Set Local Firebase Config
 
 > Set for MacOS
 
 ``` sh
-GOOGLE_APPLICATION_CREDENTIALS="reference-api-poc-4ba30a3b68ce.json"
+GOOGLE_APPLICATION_CREDENTIALS="[YOUR SERVICE JSON FILE]"
 
-FIREBASE_CONFIG="{\"databaseURL\":\"https://reference-api-poc.firebaseio.com\",\"storageBucket\":\"reference-api-poc.appspot.com\",
-\"apiKey\":\"AIzaSyAbwpR64ecoQuHOqPq50mxj_8kcx4QyF9M\",\"projectId\":\"reference-api-poc\"}"
+FIREBASE_CONFIG="[YOUR ESCAPED JSON CONFIG STRING]"
 ```
 
 Deleting functions from different project in emulator
@@ -80,3 +79,17 @@ firebase deploy --only functions
 [/stations]: https://us-central1-reference-api-poc.cloudfunctions.net/stations
 [/createStation]: https://us-central1-reference-api-poc.cloudfunctions.net/createStation
 [/stationSearch]: https://us-central1-reference-api-poc.cloudfunctions.net/stationSearch
+
+# Firebase Functions
+
+## Firebase Console
+ 
+ Limited information of the functions. View the deployed functions and invocations.
+
+ https://console.firebase.google.com/u/1/project/`[YOURPROJECTID]`/functions/list
+
+ ## Google Cloud Functions Console
+
+ Detailed view of the functions. Can download, copy, see deployed date and analytics. You can also create new from here & test the functions.
+
+https://console.cloud.google.com/functions/list?project=`[YOURPROJECTID]`
