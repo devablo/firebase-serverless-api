@@ -1,73 +1,38 @@
 import * as functions from 'firebase-functions';
-import { StationService } from './stationService';
-const stationService = new StationService();
+import * as express from 'express';
+import * as bodyParser from "body-parser";
+import router from './routes/index';
+import { FirestoreService } from './firestoreService';
 
-/*
-* Create a station node
-*
-* @example
-* TBC
-*
-* @param {Object} req Cloud Function request context.
-* @param {Object} res Cloud Function response context.
-*/
-export const createStation = functions.https.onRequest(async (req, res) => {
-
-    try {
-        // TODO: Validate Request
-        const requestBody = req.body;
-        const name = requestBody.name;
-        if (!name)
-            return res.status(200).send('Invalid Station name');
-
-        const exists = await stationService.stationExists(name);
-        if (exists)
-            return res.status(200).send('Station already exists');
-        
-        const ref = await stationService.create(requestBody);
-        const data = { success: true, data: ref.id, message: 'Created'};
-        console.log('Created Entity with ID: ', ref.id);
-
-        return res.status(200).send(JSON.stringify(data));
-    } catch (error) {
-        console.log('Error:', error);
-        const data =  { success: false, data: null, message: 'Error'};
-
-        return res.status(403).send(JSON.stringify(data));
-    }
-});
+const firestoreService = new FirestoreService();
+const expressApp = express();
+expressApp.use(bodyParser.json());
 
 export const health = functions.https.onRequest(async (req, res) => {
     res.status(200).send('OK');
 });
 
-export const stationSearch = functions.https.onRequest(async (req, res) => {
-    try {
-        const stationId = req.query.id;
-        const station = req.query.code;
-
-        if (station) {
-            console.log(`Getting Station By Code: ${station}`);
-            const data = await stationService.getByCode(station);
-            return res.status(200).send(JSON.stringify(data));
-        }
-        else if (stationId) {
-            console.log(`Getting Station By ID: ${stationId}`);
-            const data = await stationService.getById(stationId)
-            return res.status(200).send(JSON.stringify(data));
-        }
-    } catch (error) {
-        console.log('Error:', error);
-    }
-    return res.status(200).send([{}]);
+expressApp.use('/api/stations', router);
+expressApp.get('/api/', async (req: express.Request, res: express.Response) => {
+    const html = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="DW4tqoISFjuSPul-AcCAMvaDuHPAjERxR3cxsGbuXTY" />
+        <title>API Docs</title>
+        </head>
+        <body>
+            API OK
+        </body>
+        </html>
+    `
+    res.status(200).send(html);
+});
+expressApp.post("/api/subscriber", async (req: express.Request, res: express.Response) => {
+    const requestBody = req.body;    
+    await firestoreService.create('subscriberLog', requestBody)
+    res.status(200).send('OK');
 });
 
-export const stations = functions.https.onRequest(async (req, res) => {
-    try {
-        const data = await stationService.getAll();
-        return res.status(200).send(JSON.stringify(data));        
-    } catch (error) {
-        console.log('Error:', error);
-    }
-    return res.status(200).send([{}]);
-});
+export const app = functions.https.onRequest(expressApp);
