@@ -35,4 +35,17 @@ expressApp.post("/api/subscriber", async (req: express.Request, res: express.Res
     res.status(200).send('OK');
 });
 
+expressApp.post("/api/subscriber", async (req: express.Request, res: express.Response) => {
+    const requestBody = req.body;    
+    await firestoreService.create('subscriberLog', requestBody)
+    res.status(200).send('OK');
+});
+
+exports.stationCreateSubscriberHandler = functions.pubsub.topic('stations-create').onPublish(async (message) => {
+  try {
+    await firestoreService.create('subscriberLog', message)
+  } catch (e) {
+    console.error('Error Processing Topic Message', e);
+  }
+});
 export const app = functions.https.onRequest(expressApp);
