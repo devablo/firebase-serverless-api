@@ -20,6 +20,7 @@ expressApp.get('/api/', async (req: express.Request, res: express.Response) => {
         <head>
         <meta charset="UTF-8">
         <meta name="google-site-verification" content="DW4tqoISFjuSPul-AcCAMvaDuHPAjERxR3cxsGbuXTY" />
+        <meta name="google-site-verification" content="TfMbTfiC9gw_3eXjP9L9DTZPwDCX1iv-atF1Sbnqp1U" />
         <title>API Docs</title>
         </head>
         <body>
@@ -35,15 +36,13 @@ expressApp.post("/api/subscriber", async (req: express.Request, res: express.Res
     res.status(200).send('OK');
 });
 
-expressApp.post("/api/subscriber", async (req: express.Request, res: express.Response) => {
-    const requestBody = req.body;    
-    await firestoreService.create('subscriberLog', requestBody)
-    res.status(200).send('OK');
-});
-
 exports.stationCreateSubscriberHandler = functions.pubsub.topic('stations-create').onPublish(async (message) => {
   try {
-    await firestoreService.create('subscriberLog', message)
+    console.info(message);
+
+    const messageBody = message.data ? Buffer.from(message.data, 'base64').toString() : null;
+    const json = { "data": messageBody }
+    await firestoreService.create('subscriberLog', json)
   } catch (e) {
     console.error('Error Processing Topic Message', e);
   }
