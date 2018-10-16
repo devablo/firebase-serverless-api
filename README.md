@@ -43,7 +43,7 @@ FIREBASE_CONFIG="[YOUR ESCAPED JSON CONFIG STRING]"
 Deleting functions from different project in emulator
 functions delete getStationByName --projectId devablo-197710
 
-## Debugging with Functions Emulator
+## Debugging with VS Code
 
 1. Run firebase function emulator with the node inspector
 functions inspect stations
@@ -159,3 +159,20 @@ Add a endpoint which all the APIs fall under, i.e. /api/ and return meta header 
 It is highly recommended though that this is not the way to add subscriptions. You should use a Cloud Function with the function type `pubsub` where you can specify the topic for the subscription.
 
 > This repository demos this setup. See the index.ts
+
+## Publish Topic Message
+
+Through https://console.cloud.google.com/cloudpubsub/topicList?project=reference-api-poc&authuser=1
+
+You can publish messages and test out the Subscriptions.
+
+# HTTP Cloud Function Domain Verification
+
+Verify through Webmaster Tools: https://www.google.com/webmasters/verification/home?hl=en&authuser=1
+Then Add to Google Console Domain Verification: https://console.cloud.google.com/apis/credentials/domainverification?project=reference-api-poc&authuser=1
+
+Example: https://us-central1-reference-api-poc.cloudfunctions.net/app/api/
+
+# Debugging
+
+Ensure you have console logs for stdout which get picked up automatically in cloud. Adding in messages are essential for debugging cloud functions. Try and run locally to test out but last resort is to view the logs in the functions.
