@@ -1,30 +1,34 @@
-const functions = require('firebase-functions');
-const admin = require('firebase-admin');
+import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
+
 admin.initializeApp(functions.config().firebase);
 const db = admin.firestore();
 
-exports.FirestoreService = class FirestoreService {
-    constructor() {
-    }
+export async function createStation(collection, doc) {
+    return db.collection(collection).add(doc);
+}
+
+export class FirestoreService {
 
     async create(collection, doc) {
         return db.collection(collection).add(doc);
     }
+    
     async getDocumentByFilter(collection, filter){
-        let dataRef = db.collection(collection);            
-        let query = dataRef.where(filter.field, "==", filter.value).limit(1);
+        const dataRef = db.collection(collection);            
+        const query = dataRef.where(filter.field, "==", filter.value).limit(1);
         return query.get().then((querySnapshot) => {
-            let result = querySnapshot.docs[0].data();
+            const result = querySnapshot.docs[0].data();
             result.id = querySnapshot.docs[0].id;
             return result;
         })
     }
     async getAllDocuments(collection) {
-        let rootRef = db.collection(collection);
-        let query = rootRef.orderBy("name")
+        const rootRef = db.collection(collection);
+        const query = rootRef.orderBy("name")
         return query.get().then((querySnapshot) => {
             return querySnapshot.docs.map((documentSnapshot) => {
-                let result = documentSnapshot.data();
+                const result = documentSnapshot.data();
                 result.id = documentSnapshot.id;
                 return result;
               });
@@ -36,7 +40,7 @@ exports.FirestoreService = class FirestoreService {
             .then((doc) => {
                 
                 if (doc.exists) {
-                    let result = doc.data();
+                    const result = doc.data();
                     result.id = doc.id;
                     return result;
                 }
@@ -50,7 +54,7 @@ exports.FirestoreService = class FirestoreService {
     }
     async documentExistsByName(collection, name) {
         const dataRef = db.collection(collection);
-        let query = dataRef.where("name", "==", name).limit(1);
+        const query = dataRef.where("name", "==", name).limit(1);
     
         return query.get().then((querySnapshot) => {
             return !querySnapshot.empty;

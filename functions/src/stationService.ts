@@ -1,16 +1,14 @@
-const { FirestoreService } = require('./firestoreService');
+import { FirestoreService } from './firestoreService';
 const firestoreService = new FirestoreService();
 
-exports.StationService = class StationService {
-    constructor() {
-    }
+export class StationService {
     
     async create(station) {
         return firestoreService.create('stations', station)
     }
     async getByCode(code){
 
-        let filter = {
+        const filter = {
             field: 'code',
             value: code
         }  
