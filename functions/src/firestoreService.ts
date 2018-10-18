@@ -3,6 +3,9 @@ import * as admin from 'firebase-admin';
 
 admin.initializeApp(functions.config().firebase);
 const db = admin.firestore();
+// updated as per google recommendation
+const settings = {timestampsInSnapshots: true};
+db.settings(settings);
 
 export async function createStation(collection, doc) {
     return db.collection(collection).add(doc);
